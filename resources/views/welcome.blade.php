@@ -54,56 +54,42 @@
         <span class="navbar-toggler-icon"></span>
       </button>
     </div>
-    <div class="collapse navbar-collapse" id="navigation-example4">
-      <ul class="ml-auto navbar-nav navbar-center">
+    <div class="collapse navbar-collapse">
+      <ul class="ml-auto navbar-nav">
         <li class="nav-item">
           <a href="{{ route('posts.index') }}" class="nav-link">
-            Inicio
+            INICIO
           </a>
         </li>
         @if (Route::has('login'))
             @auth
-                <li class="nav-item">
-                    <a href="{{ route('admin') }}" class="nav-link">
-                       Dashboard
-                    </a>
-                </li>
+              <li class="dropdown nav-item">
+                <a href="#pablo" class="profile-photo dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                  <div class="profile-photo-small">
+                    <img src="{{ Auth::user()->profile_photo_url }}" alt="Circle Image" class="rounded-circle img-fluid">
+                  </div>
+                <div class="ripple-container"></div></a>
+                <div class="dropdown-menu dropdown-menu-right hiding">
+                  <h6 class="dropdown-header">{{ Auth::user()->name }}</h6>
+                  <a href="{{ route('profile.show') }}" class="dropdown-item">Perfil</a>
+                  <a href="{{ route('admin') }}" class="dropdown-item">Panel de administración</a>
+                
+                </div>
+              </li>
             @else
-                <li class="nav-item">
-                    <a href="{{ route('login') }}" class="nav-link">
-                        Iniciar sesión
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{{ route('register') }}" class="nav-link">
-                        Registrarte
-                    </a>
-                </li>
+              <li class="nav-item">
+                <a href="{{ route('login') }}" class="nav-link">
+                  INICIAR SESIÓN
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('register') }}" class="nav-link">
+                  REGISTRARSE
+                </a>
+              </li>
             @endauth
         @endif
-      </ul>
-      <ul class="ml-auto navbar-nav">
-        <li class="nav-item">
-          <a href="https://twitter.com/IGammaNet" target="_blank" class="nav-link">
-            <i class="fa fa-twitter"></i>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="https://www.facebook.com/IGammaNet" target="_blank" class="nav-link">
-            <i class="fa fa-facebook-square"></i>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="https://www.instagram.com/IGammaNet/" target="_blank" class="nav-link">
-            <i class="fa fa-instagram"></i>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="https://www.youtube.com/channel/UCIKMlmmjLsYOywyz5Di_8fA" target="_blank" class="nav-link">
-            <i class="fa fa-youtube"></i>
-          </a>
-        </li>
+        
       </ul>
     </div>
   </div>

@@ -66,19 +66,36 @@
             <x-jet-input-error for="email" class="mt-2" />
         </div>
 
-        <!-- Decsription -->
+        <!-- Institución -->
         <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="description" value="{{ __('Descripción') }}" />
-            <x-jet-input id="description" type="text" class="block w-full mt-1" wire:model.defer="state.description" />
-            <x-jet-input-error for="description" class="mt-2" />
+            <label for="institution">Institución</label>
+            <select name="institution_id" id="institution_id" class="block w-full mt-1" wire:model.defer="state.institution_id">
+                <option value="{{ Auth::user()->institution->id }}" selected>{{ Auth::user()->institution->name }}</option>
+                @foreach ($institutions as $item)
+                    @if($item->id != Auth::user()->institution->id)
+                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                    @endif
+                @endforeach
+            </select>
+            @error('institution_id') <span class="mt-2 text-sm text-red-500">{{ $message }}</span>@enderror
         </div>
 
-        <!-- Estudies -->
+        <!-- Decsription -->
         <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="estudies" value="{{ __('Formación academica') }}" />
-            <x-jet-input id="estudies" type="text" class="block w-full mt-1" wire:model.defer="state.estudies" />
-            <x-jet-input-error for="estudies" class="mt-2" />
+            <label for="description">Descripción</label>
+            <textarea class="block w-full mt-1" id="description"  wire:model.defer="state.description" ></textarea>
+            @error('description') <span class="mt-2 text-sm text-red-500">{{ $message }}</span>@enderror
         </div>
+
+        <!-- Decsription -->
+        <div class="col-span-6 sm:col-span-4">
+            <label for="estudies">Formación academica</label>
+            <textarea class="block w-full mt-1" id="estudies"  wire:model.defer="state.estudies" ></textarea>
+            @error('estudies') <span class="mt-2 text-sm text-red-500">{{ $message }}</span>@enderror
+        </div>
+
+        
+        
     </x-slot>
 
     <x-slot name="actions">

@@ -20,6 +20,6 @@ class Institution extends Model
 
     //relacion uno a uno inversa
     public function user() {
-        return $this->belongsTo(User::class);
+        return $this->hasOne(User::class);
     }
 }

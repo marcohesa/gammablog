@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\PostStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
@@ -90,6 +91,8 @@ class PostController extends Controller
             $post->image()->create([
                 'url' => 'post/'.$filename,
             ]);
+
+            event(new PostStatus($post)); 
         }
         return redirect()->route('admin.posts.index')->with('info', 'Publicación creada');
     }
@@ -102,18 +105,22 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        $msg = '';
+
         if($post->status == 1) {
             $post->status = 2;
             $post->update();
-    
-            return redirect()->back()->with('info', 'Publicación aprobada');
+            event(new PostStatus($post));
+            $msg = 'aprobada';
         }
         if($post->status == 2) {
             $post->status = 3;
             $post->update();
-
-            return redirect()->back()->with('info', 'Publicación publicada');
+            $msg = 'publicada';
         }
+
+        event(new PostStatus($post));
+        return redirect()->back()->with('info', 'Publicación '.$msg);
     }
 
     /**
@@ -160,10 +167,11 @@ class PostController extends Controller
         $post->status = 1;
         if(Auth::user()->hasrole([1,2])) {
             $post->user_id = $request->user_id;
-            $post->publicationDate = $request->publicationDate;
+            
         } else {
             $post->user_id = Auth::user()->id;
         }
+        $post->publicationDate = $request->publicationDate;
         $post->category_id = $request->category_id;
 
         if($post->update()) {

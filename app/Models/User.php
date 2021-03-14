@@ -73,7 +73,7 @@ class User extends Authenticatable
     //Relación uno a uno
 
     public function institution() {
-        return $this->HasOne(Institution::class);
+        return $this->belongsTo(Institution::class);
     }
 
 

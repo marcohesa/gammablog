@@ -14,7 +14,6 @@
                 <thead>
                     <th>Nombre completo</th>
                     <th>Correo electrónico</th>
-                    <th>Institución</th>
                     <th>Roles</th>
                     <th colspan="3"></th>
                 </thead>
@@ -23,7 +22,6 @@
                         <tr>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ $user->institution }}</td>
                             <td>
                                 @forelse ($user->roles as $role)
                                     {{ $role->name }} <br>

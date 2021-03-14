@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\PasswordUser;
+use App\Events\UserStatus;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Institution;
@@ -58,6 +60,8 @@ class UserController extends Controller
     
 
         $user->save();
+
+        event(new PasswordUser($user)); 
         return redirect()->route('admin.users.index')->with('info', 'Usuario creado');
     }
 
@@ -71,25 +75,6 @@ class UserController extends Controller
     {
         $institutions = Institution::latest('id')->pluck('name', 'id');
         return view('admin.users.show', compact('user'));
-    }
-
-
-    public function profile(User $user) {
-
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'institution_id' => 'required',
-        ]);
-
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->institution_id = $request->institution_id;
-        $user->description = $request->description;
-        $user->estudies = $request->estudies;    
-        $user->update();
-
-        return redirect()->route('admin.users.index')->with('info', 'Perfil actualizado');
     }
 
     /**
@@ -113,7 +98,11 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $request->validate([
+            'roles' => 'required',
+        ]);
         $user->roles()->sync($request->roles);
+        event(new UserStatus($user)); 
 
         return redirect()->route('admin.users.index')->with('info', 'Rol asignado correctamente');
     }
