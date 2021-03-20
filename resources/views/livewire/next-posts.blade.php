@@ -1,6 +1,6 @@
 <div class="ml-auto mr-auto row d-flex justify-content-center">
     @if($nextPosts->count() != 0 )
-        <h1 class="m-4 text-center col-md-12">Próximas publicaciones</h1>
+        <h2 class="m-4 text-center col-md-12 title">Próximas publicaciones</h1>
     @else
     
     @endif

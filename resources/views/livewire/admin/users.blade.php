@@ -1,6 +1,9 @@
 <div class="card">
     <div class="card-header">
-        <a class="btn btn-outline-success" href="{{ route('admin.users.create') }}">Crear usuario</a>
+        @can('Crear usuarios')
+            <a class="btn btn-outline-success" href="{{ route('admin.users.create') }}">Crear usuario</a>              
+        @endcan
+        
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -29,14 +32,25 @@
                                     Sin rol
                                 @endforelse  
                             </td>
-                            <td width="10px"><a class="btn btn-outline-dark" href="{{ route('admin.users.show', $user) }}">Ver</a></td>
-                            <td width="10px"><a class="btn btn-outline-dark text-nowrap" href="{{ route('admin.users.edit', $user) }}">Asignar rol</a></td>
                             <td width="10px">
-                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-outline-danger">Eliminar</button>
-                                </form>
+                                @can('Ver usuario')
+                                    <a class="btn btn-outline-dark" href="{{ route('admin.users.show', $user) }}">Ver</a>
+                                @endcan
+                            </td>
+                            <td width="10px">
+                                @can('Editar usuarios')
+                                    <a class="btn btn-outline-dark text-nowrap" href="{{ route('admin.users.edit', $user) }}">Asignar rol</a>
+                                @endcan
+                            </td>
+                            <td width="10px">
+                                @can('Eliminar usuarios')
+                                    <form action="{{ route('admin.users.destroy', $user) }}" method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+                                    </form>
+                                @endcan
+                                
                             </td>
                         </tr>
                     @endforeach

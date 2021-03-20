@@ -9,7 +9,14 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-   
+    public function __construct()
+    {
+        $this->middleware('can:dashboard')->only('index'); 
+        $this->middleware('can:Ver categorias')->only('index');   
+        $this->middleware('can:Editar categorias')->only('edit', 'update');   
+        $this->middleware('can:Crear categorias')->only('create', 'store');   
+        $this->middleware('can:Eliminar categorias')->only('delete');   
+    }
     /**
      * Display a listing of the resource.
      *

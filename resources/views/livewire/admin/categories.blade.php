@@ -1,6 +1,9 @@
 <div class="card">
     <div class="card-header">
-        <a class="btn btn-outline-success" href="{{ route('admin.categories.create') }}">Crear categoria</a>
+        @can('Crear categorias')
+            <a class="btn btn-outline-success" href="{{ route('admin.categories.create') }}">Crear categoria</a>
+        @endcan
+        
     </div>
     <div class="card-body">
         <table class="table table-striped">
@@ -12,13 +15,20 @@
                 @foreach ($categories as $category)
                    <tr>
                     <td>{{ $category->name }}</td>
-                    <td width="10px"><a class="btn btn-outline-dark" href="{{ route('admin.categories.edit', $category) }}">Editar</a></td>
                     <td width="10px">
-                        <form action="{{ route('admin.categories.destroy', $category) }}" method="POST">
-                            @csrf
-                            @method('delete')
-                            <button type="submit" class="btn btn-outline-danger">Eliminar</button>
-                        </form>
+                        @can('Editar categorias')
+                            <a class="btn btn-outline-dark" href="{{ route('admin.categories.edit', $category) }}">Editar</a>
+                        @endcan
+                       
+                    </td>
+                    <td width="10px">
+                        @can('Eliminar categorias')
+                            <form action="{{ route('admin.categories.destroy', $category) }}" method="POST">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+                            </form>
+                        @endcan
                     </td>
                    </tr>
                 @endforeach

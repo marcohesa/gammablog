@@ -18,7 +18,10 @@
     @endif
     <div class="card">
         <div class="card-header">
-            <a class="btn btn-outline-success" href="{{ route('admin.roles.create') }}">Crear rol</a>
+            @can('Crear roles')
+                <a class="btn btn-outline-success" href="{{ route('admin.roles.create') }}">Crear rol</a>            
+            @endcan
+            
         </div>
         <div class="card-body">
             <table class="table table-striped">
@@ -33,15 +36,21 @@
                             <tr>
                                 <td>{{ $role->name }}</td>
                                 <td width="10px">
-                                    <a class="btn btn-outline-dark" href="{{ route('admin.roles.edit', $role) }}">Editar</a>    
+                                    @can('Editar roles')
+                                        <a class="btn btn-outline-dark" href="{{ route('admin.roles.edit', $role) }}">Editar</a>
+                                    @endcan
+                                        
                                 </td>
                                 <td width="10px">
-                                    <form action="{{ route('admin.roles.destroy', $role) }}" method="Post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-outline-danger" type="submit">Eliminar</button>
-    
-                                    </form>
+                                    @can('Eliminar roles')
+                                        <form action="{{ route('admin.roles.destroy', $role) }}" method="Post">
+                                            @csrf
+                                            @method('delete')
+                                            <button class="btn btn-outline-danger" type="submit">Eliminar</button>
+        
+                                        </form>
+                                    @endcan
+                                   
                                 </td>
                             </tr>                        
                         @empty

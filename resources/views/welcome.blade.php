@@ -72,7 +72,18 @@
                 <div class="dropdown-menu dropdown-menu-right hiding">
                   <h6 class="dropdown-header">{{ Auth::user()->name }}</h6>
                   <a href="{{ route('profile.show') }}" class="dropdown-item">Perfil</a>
-                  <a href="{{ route('admin') }}" class="dropdown-item">Panel de administración</a>
+                  @can('dashboard')
+                     <a href="{{ route('admin') }}" class="dropdown-item">Panel de administración</a>
+                  @endcan
+                  <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                             onclick="event.preventDefault();
+                                    this.closest('form').submit();">
+                        {{ __('Cerrar session') }}
+                    </a>
+                </form>
                 
                 </div>
               </li>

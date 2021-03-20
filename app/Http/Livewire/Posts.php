@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Post;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -20,9 +21,16 @@ class Posts extends Component
 
     public function render()
     {
-        $posts = Post::where('status', 3)
-        ->where('title', 'LIKE', '%' . $this->search . '%')
-        ->latest('id')->paginate(4);
+
+        // if(Cache::has('posts')) {
+        //     $posts = Cache::get('posts');
+        // } else {
+            $posts = Post::where('status', 3)
+            ->where('title', 'LIKE', '%' . $this->search . '%')
+            ->latest('id')->paginate(4);
+        //     Cache::put('posts', $posts);
+        // }
+     
 
         return view('livewire.posts', compact('posts'));
        

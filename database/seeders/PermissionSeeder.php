@@ -15,29 +15,29 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         Permission::create([
-            'name' => 'categories.index',
+            'name' => 'Ver categorias',
         ]);
         Permission::create([
-            'name' => 'categories.create',
+            'name' => 'Crear categorias',
         ]);
         Permission::create([
-            'name' => 'categories.edit',
+            'name' => 'Editar categorias',
         ]);
         Permission::create([
-            'name' => 'categories.delete',
+            'name' => 'Eliminar categorias',
         ]);
 
         Permission::create([
-            'name' => 'posts.index',
+            'name' => 'Ver publicaciones',
         ]);
         Permission::create([
-            'name' => 'posts.create',
+            'name' => 'Crear publicaciones',
         ]);
         Permission::create([
-            'name' => 'posts.edit',
+            'name' => 'Editar publicaciones',
         ]);
         Permission::create([
-            'name' => 'posts.delete',
+            'name' => 'Eliminar publicaciones',
         ]);
 
 
@@ -47,30 +47,30 @@ class PermissionSeeder extends Seeder
 
 
         Permission::create([
-            'name' => 'roles.index',
+            'name' => 'Ver roles',
         ]);
         Permission::create([
-            'name' => 'roles.create',
+            'name' => 'Crear roles',
         ]);
         Permission::create([
-            'name' => 'roles.edit',
+            'name' => 'Editar roles',
         ]);
         Permission::create([
-            'name' => 'roles.delete',
+            'name' => 'Eliminar roles',
         ]);
 
 
         Permission::create([
-            'name' => 'users.index',
+            'name' => 'Ver usuarios',
         ]);
         Permission::create([
-            'name' => 'users.create',
+            'name' => 'Crear usuarios',
         ]);
         Permission::create([
-            'name' => 'users.edit',
+            'name' => 'Editar usuarios',
         ]);
         Permission::create([
-            'name' => 'users.delete',
+            'name' => 'Eliminar usuarios',
         ]);
     }
 }

@@ -50,7 +50,8 @@ return [
     'logo_img_class' => 'brand-image elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'AdminLTE',
+    'logo_img_alt' => 'Igamma',
+    'route'  => 'posts',
 
     /*
     |--------------------------------------------------------------------------
@@ -187,7 +188,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'posts',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -247,29 +248,43 @@ return [
             'route'  => 'profile.show',
             'icon' => 'fas fa-fw fa-user',
         ],
-        ['header' => 'ADMINISTRACIÓN'],
+        [
+            'header' => 'ADMINISTRACIÓN',
+            'can'           => 'Ver usuarios',
+        ],
         [
             'text' => 'Roles',
             'route'  => 'admin.roles.index',
             'icon' => 'fas fa-fw fa-users',
+            'active'        => ['admin/roles*'],
+            'can'           => 'Ver roles',
         ],
         [
             'text' => 'Usuarios',
             'route'  => 'admin.users.index',
             'icon' => 'fas fa-fw fa-users',
+            'active'        => ['admin/users*'],
+            'can'           => 'Ver usuarios',
         ],
         
-        ['header' => 'BLOG'],
+        [
+            'header' => 'BLOG',
+            'can'           => 'Ver publicaciones',
+        ],
        
         [
             'text' => 'Categorias',
             'route'  => 'admin.categories.index',
             'icon' => 'fab fa-fw fa-buffer',
+            'active'        => ['admin/categories*'],
+            'can'           => 'Ver categorias',
         ],
         [
             'text' => 'Publicaciones',
             'route'  => 'admin.posts.index',
             'icon' => 'fas fa-fw fa-scroll',
+            'active'        => ['admin/posts*'],
+            'can'           => 'Ver publicaciones',
         ],
         
     ],

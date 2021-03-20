@@ -1,6 +1,9 @@
 <div class="card">
     <div class="card-header">
-        <a class="btn btn-outline-success" href="{{ route('admin.posts.create') }}">Crear publicación</a>
+        @can('Crear publicaciones')
+            <a class="btn btn-outline-success" href="{{ route('admin.posts.create') }}">Crear publicación</a>              
+        @endcan
+        
     </div>
     <div class="card-body">
         <div class="col-12 col-sm-12 col-lg-12">
@@ -47,23 +50,47 @@
                                             Sin asignar
                                         @endif
                                     <td width="10px">
-                                        <a class="btn btn-outline-dark @if($post->status == 3) disabled @endif" href="{{ route('admin.posts.show', $post) }}">
-                                            @if ($post->status == 1)
-                                                Aprobar
-                                            @elseif($post->status == 2)
-                                                Publicar
-                                            @else
-                                               <i style="color: green;" class="fas fa-check-circle"></i>
+                                       
+                                        @can('Ver publicaciones')
+                                            @if(Auth::user()->hasrole([1,2]))
+                                                <a class="btn btn-outline-dark @if($post->status == 3) disabled @endif" href="{{ route('admin.posts.show', $post) }}">
+                                                    @if ($post->status == 1)
+                                                        Aprobar
+                                                    @elseif($post->status == 2)
+                                                        Publicar
+                                                    @else
+                                                    <i style="color: green;" class="fas fa-check-circle"></i>
+                                                    @endif
+                                                </a>
+                                            @elseif(Auth::user()->hasrole([3]))
+                                                @if ($post->status == 1)
+                                                    En revisión
+                                                @elseif($post->status == 2)
+                                                    Aprobado
+                                                @else
+                                                <i style="color: green;" class="fas fa-check-circle"></i>
+                                                @endif
                                             @endif
-                                        </a>
+                                        @endcan 
+                                       
                                     </td>
-                                    <td width="10px"><a class="btn btn-outline-dark" href="{{ route('admin.posts.edit', $post) }}">Editar</a></td>
                                     <td width="10px">
-                                        <form action="{{ route('admin.posts.destroy', $post) }}" method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="submit" class="btn btn-outline-danger">Eliminar</button>
-                                        </form>
+                                        @can('Editar publicaciones')
+                                            @if (Auth::user()->hasrole([1,2]) || (Auth::user()->hasrole([3]) && $post->status == 1))
+                                               <a class="btn btn-outline-dark" href="{{ route('admin.posts.edit', $post) }}">Editar</a> 
+                                            @endif
+                                        @endcan
+                                        
+                                    </td>
+                                    <td width="10px">
+                                        @can('Eliminar publicaciones')
+                                            <form action="{{ route('admin.posts.destroy', $post) }}" method="POST">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+                                            </form>
+                                        @endcan
+                                        
                                     </td>
                             
                                 </tr>

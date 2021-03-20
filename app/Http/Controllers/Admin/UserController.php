@@ -14,6 +14,15 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('can:dashboard')->only('index'); 
+        $this->middleware('can:Ver usuarios')->only('index');   
+        $this->middleware('can:Editar usuarios')->only('edit', 'update');   
+        $this->middleware('can:Crear usuarios')->only('create', 'store');   
+        $this->middleware('can:Eliminar usuarios')->only('delete');   
+    }
     /**
      * Display a listing of the resource.
      *

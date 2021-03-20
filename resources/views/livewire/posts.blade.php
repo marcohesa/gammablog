@@ -42,7 +42,7 @@
             </div>
         </div>
     @empty
-        <h1 class="card-title">No hay publicaciones disponibles</h1>
+        <h2 class="text-center title">No hay publicaciones disponibles</h2>
     @endforelse
 
     <div class="d-flex justify-content-center align-items-center">

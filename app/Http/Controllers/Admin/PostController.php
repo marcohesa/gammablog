@@ -15,7 +15,14 @@ use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
-
+    public function __construct()
+    {
+        $this->middleware('can:dashboard')->only('index'); 
+        $this->middleware('can:Ver publicaciones')->only('index', 'show');   
+        $this->middleware('can:Editar publicaciones')->only('edit', 'update');   
+        $this->middleware('can:Crear publicaciones')->only('create', 'store');   
+        $this->middleware('can:Eliminar publicaciones')->only('delete');   
+    }
     /**
      * Display a listing of the resource.
      *
@@ -105,22 +112,18 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        $msg = '';
-
         if($post->status == 1) {
             $post->status = 2;
             $post->update();
             event(new PostStatus($post));
-            $msg = 'aprobada';
+            return redirect()->back()->with('info', 'Publicación aprobada');
         }
         if($post->status == 2) {
             $post->status = 3;
             $post->update();
-            $msg = 'publicada';
+            event(new PostStatus($post));
+            return redirect()->back()->with('info', 'Publicación publicada');
         }
-
-        event(new PostStatus($post));
-        return redirect()->back()->with('info', 'Publicación '.$msg);
     }
 
     /**
