@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Subscriber;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -34,8 +35,18 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $suscriber = Subscriber::where('email',$request->email)->first();
+        if($suscriber == NULL || $suscriber == '') {
+            $suscriber =  new Subscriber;
+            $suscriber->email = $request->email;
+            $suscriber->save();
+        } 
+        return redirect()->route('posts.index')->with('success', 'Gracias por ser parte de INTEGRALIDAD GAMMA');
     }
 
     /**
@@ -46,9 +57,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-
         $posts = Post::where('category_id',$post->category_id)
-        ->where('status', 3)->where('id','!=',$post->id)->latest('id')->take(15)->get();
+        ->where('status', 4)->where('id','!=',$post->id)->latest('id')->take(15)->get();
         return view('posts.show', compact('post', 'posts'));
     }
 

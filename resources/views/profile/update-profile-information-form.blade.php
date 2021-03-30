@@ -66,16 +66,35 @@
             <x-jet-input-error for="email" class="mt-2" />
         </div>
 
+        <!-- Facebook -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-jet-label for="facebook" value="{{ __('Facebook') }}" />
+            <x-jet-input id="facebook" type="text" class="block w-full mt-1" wire:model.defer="state.facebook" />
+            <x-jet-input-error for="facebook" class="mt-2" />
+        </div>
+
+        <!-- Twitter -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-jet-label for="twitter" value="{{ __('Twitter') }}" />
+            <x-jet-input id="twitter" type="text" class="block w-full mt-1" wire:model.defer="state.twitter" />
+            <x-jet-input-error for="twitter" class="mt-2" />
+        </div>
+
         <!-- Institución -->
         <div class="col-span-6 sm:col-span-4">
             <label for="institution">Institución</label>
             <select name="institution_id" id="institution_id" class="block w-full mt-1" wire:model.defer="state.institution_id">
-                <option value="{{ Auth::user()->institution->id }}" selected>{{ Auth::user()->institution->name }}</option>
-                @foreach ($institutions as $item)
-                    @if($item->id != Auth::user()->institution->id)
-                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                    @endif
-                @endforeach
+                @if (Auth::user()->institution_id )
+                    <option value="{{ Auth::user()->institution_id }}" selected>{{ Auth::user()->institution->name }}</option>
+                @else  
+                    <option value="" selected>Selecciona una opción</option>
+                @endif
+                <option value="1">CONABIO</option>
+                <option value="2">INECOL</option>
+                <option value="3">CIATEC</option>
+                <option value="4">CIDE</option>
+                <option value="5">UNIVERSIDAD DE LUXEMBURGO, RISC</option>
+                <option value="6">UPIITA - IPN</option>
             </select>
             @error('institution_id') <span class="mt-2 text-sm text-red-500">{{ $message }}</span>@enderror
         </div>

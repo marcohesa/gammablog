@@ -1,6 +1,6 @@
 <div class="form-group">
     {!! Form::label('name', 'Nombre') !!}
-    {!! Form::text('name', null, ['class' => 'form-control'.($errors->has('name') ? ' is-invalid': '')]) !!}
+    {!! Form::text('name', null, ['required','class' => 'form-control'.($errors->has('name') ? ' is-invalid': '')]) !!}
     @error('name')
         <span class="invalid-feedback">
             {{ $message }}
@@ -19,7 +19,7 @@
 @foreach ($permissions as $permission)
     <div>
         <label>
-            {!! Form::checkbox('permissions[]', $permission->id, null, ['class' => 'mr-1']) !!}
+            {!! Form::checkbox('permissions[]', $permission->id, null, ['class' => 'mr-1', 'id' => 'save']) !!}
             {{ $permission->name }}
         </label>
     </div>

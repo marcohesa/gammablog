@@ -5,28 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class PostUser extends Model
 {
     use HasFactory;
 
-    public function getRouteKeyName()
-    {
-        return 'slug';   
-    }
+    protected $table = 'post_user';
 
-     /**
+      /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name',
-        'slug',
+        'post_id',
+        'user_id',
     ];
-
-    // Relacion uno a uno
-
-    public function posts() {
-        return $this->hasOne('App\Models\Post');
-    }
 }

@@ -13,7 +13,7 @@
                     <input wire:model='search' type="text" placeholder="Buscar por nombre" class="form-control">
                 </div>
             </div>
-            <table class="table table-striped">
+            <table class="table table-striped text-nowrap">
                 <thead>
                     <th>Nombre completo</th>
                     <th>Correo electrónico</th>
@@ -23,7 +23,7 @@
                 <tbody>
                     @foreach ($users as $user)
                         <tr>
-                            <td>{{ $user->name }}</td>
+                            <td>{{ mb_strtoupper($user->name) }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
                                 @forelse ($user->roles as $role)

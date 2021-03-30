@@ -28,6 +28,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'facebook',
+        'twitter',
         'institution_id',
         'description',
         'estudies',
@@ -67,14 +69,16 @@ class User extends Authenticatable
     //Relación uno a muchos
 
     public function posts() {
-        return $this->hasMany(Post::class);
+        return $this->belongsToMany(Post::class); //post_user
     }
 
     //Relación uno a uno
 
     public function institution() {
-        return $this->belongsTo(Institution::class);
+        return $this->belongsTo('App\Models\Institution');
     }
+
+    
 
 
 }

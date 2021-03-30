@@ -26,7 +26,6 @@ class Post extends Model
         'publicationDate',
         'body',
         'status',
-        'user_id',
         'category_id',
     ];
 
@@ -34,12 +33,14 @@ class Post extends Model
 
     //Relación uno a muchos inversa
 
-    public function user() {
-        return $this->belongsTo(User::class);
+    public function users() {
+        return $this->belongsToMany('App\Models\User');
     }
 
+   
+    // Relacion uno a uno inversa
     public function category() {
-        $this->belongsTo(Category::class);
+        return $this->belongsTo('App\Models\Category');
     }
 
     // Relacion uno a uno pilimorfica

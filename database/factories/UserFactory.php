@@ -25,6 +25,8 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
+            'facebook' => 'www.facebook.com',
+            'twitter' => 'www.twitter.com',
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
             'institution_id' => Institution::all()->random()->id,

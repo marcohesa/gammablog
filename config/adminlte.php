@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'Integralidad GAMMA',
     'title_prefix' => '',
     'title_postfix' => '', 
 
@@ -255,7 +255,7 @@ return [
         [
             'text' => 'Roles',
             'route'  => 'admin.roles.index',
-            'icon' => 'fas fa-fw fa-users',
+            'icon' => 'fas fa-fw fa-users-cog',
             'active'        => ['admin/roles*'],
             'can'           => 'Ver roles',
         ],

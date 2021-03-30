@@ -44,14 +44,22 @@ class PostNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        if($this->post->status == 1) {
-            $user = User::where('id',$this->post->user_id)->first();
-            $msg = 'El investigador ' .$user->name. ' ha enviado una nueva publicación titulada ' .$this->post->title; 
+        if($this->post->status == 2) {
+            $authors = [];
+            foreach( $this->post->users  as $author) {
+                array_push($authors,$author->name);
+            }
+            if(sizeof($authors) > 1) {
+                $msg = 'Los investigadores ' .join(', ', $authors). ' ha enviado una nueva publicación titulada ' .$this->post->title; 
+            } else {
+                $msg = 'El investigador ' .join(', ', $authors). ' ha enviado una nueva publicación titulada ' .$this->post->title; 
+            }
+           
             $subject = 'Nueva publicación';
-        } else if($this->post->status == 2) {
+        } else if($this->post->status == 3) {
             $msg = 'Su publicación ' .$this->post->title. ' ha sido aprobada y se publicara en Blog i-gamma'; 
             $subject = 'Publicación aprobada';
-        } else if($this->post->status == 3) {
+        } else if($this->post->status == 4) {
             $msg = 'Su publicación ' .$this->post->title. ' ha sido publicada en Blog i-gamma'; 
             $subject = 'Publicación publicada';
         }

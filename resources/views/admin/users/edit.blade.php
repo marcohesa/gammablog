@@ -7,6 +7,17 @@
 @stop
 
 @section('content')
+    @if(isset($errors) && $errors->any()) 
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>
+                        {{ $error }}
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="card">
         <div class="card-body">
             <h1 class="h5">Nombre: {{ $user->name }}</h1> <br><br>
@@ -25,9 +36,34 @@
                 </div>
                 @endforeach
                 {!! Form::submit('Asignar Rol', ['class'=> 'btn btn-outline-primary mt-2']) !!}
-                 <a href="{{ route('admin.users.index') }}" class="mt-2 btn btn-outline-danger">Cancelar</a>
+                <button type="button" class="btn btn-outline-danger mt-2" onclick="confirmation()">Cancelar</button>
             {!! Form::close() !!}
         </div>
     </div>
+@stop
+
+@section('js')
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        function confirmation(){
+        var getUrl = window.location;
+        var baseUrl = getUrl.protocol + "//" + getUrl.host;
+        Swal.fire({
+            title: '¿Seguro desea salir sin guardar cambios?',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: `Aceptar`,
+            denyButtonText: `Cancelar`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                window.location.href = baseUrl + '/admin/users'
+            } else if (result.isDenied) {
+                // Swal.fire('Changes are not saved', '', 'info')
+            }
+        });
+       }
+    </script>
+    <script src="{{ asset('js/disabledButton.js') }}"></script>
 @stop
 

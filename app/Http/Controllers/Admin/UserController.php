@@ -7,6 +7,7 @@ use App\Events\UserStatus;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Institution;
+use App\Models\Subscriber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
@@ -62,16 +63,17 @@ class UserController extends Controller
         $user =  new User;
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->facebook = $request->facebook;
+        $user->twitter = $request->twitter;
         $user->institution_id = $request->institution_id;
         $user->description = $request->description;
         $user->estudies = $request->estudies;
         $user->password = bcrypt('blog-ig@mma');
-    
 
         $user->save();
 
         event(new PasswordUser($user)); 
-        return redirect()->route('admin.users.index')->with('info', 'Usuario creado');
+        return redirect()->route('admin.users.index')->with('success', 'Usuario creado');
     }
 
     /**
@@ -113,7 +115,16 @@ class UserController extends Controller
         $user->roles()->sync($request->roles);
         event(new UserStatus($user)); 
 
-        return redirect()->route('admin.users.index')->with('info', 'Rol asignado correctamente');
+        $suscribers = Subscriber::where('email', $user->email)->first();
+    
+
+        if($suscribers == NULL || $suscribers == '') {
+            $suscriber =  new Subscriber;
+            $suscriber->email = $user->email;
+            $suscriber->save();
+        } 
+
+        return redirect()->route('admin.users.index')->with('success', 'Rol asignado correctamente');
     }
 
     /**
@@ -126,6 +137,6 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('admin.users.index')->with('info', 'Usuario eliminado');
+        return redirect()->route('admin.users.index')->with('success', 'Usuario eliminado');
     }
 }

@@ -9,7 +9,7 @@
   <link rel="icon" type="image/png" href="{{ asset('iGamma/img/favicon.png') }}">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    @yield('title')
+    Blog I-GAMMA
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -22,7 +22,7 @@
   <link href="{{ asset('iGamma/demo/vertical-nav.css') }}" rel="stylesheet" />
   <link rel="stylesheet" href="{{ asset('iGamma/css/swiper.min.css') }}">
   @livewireStyles
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
   <style>
     .description, .card-description, .footer-big p {
         color: #000000;
@@ -36,6 +36,32 @@
       #back {
         display: none!important;
       }
+    }
+
+    /* width */
+    ::-webkit-scrollbar {
+    width: 4px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+    background: rgb(83, 83, 83); 
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+    background: rgb(83, 83, 83); 
+    }
+
+    input[type=text], input[type=email], textarea {
+      background-color: rgba(255, 255, 255, 0.5)!important;
+      padding: 5px!important;
+      border-radius: 10px!important;
     }
 
 
@@ -61,6 +87,16 @@
             INICIO
           </a>
         </li>
+        <li class="nav-item">
+          <a href="#subscribe" class="nav-link">
+            SUSCRIBIRSE
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#contact" class="nav-link">
+            CONTACTANOS
+          </a>
+        </li>
         @if (Route::has('login'))
             @auth
               <li class="dropdown nav-item">
@@ -73,6 +109,7 @@
                   <h6 class="dropdown-header">{{ Auth::user()->name }}</h6>
                   <a href="{{ route('profile.show') }}" class="dropdown-item">Perfil</a>
                   @can('dashboard')
+                    
                      <a href="{{ route('admin') }}" class="dropdown-item">Panel de administración</a>
                   @endcan
                   <form method="POST" action="{{ route('logout') }}">
@@ -122,7 +159,122 @@
  
   @yield('content')
 
+  <div-m-4 class="p-4"></div-m-4>
+  <footer class="footer footer-transparent footer-big pt-4">
+    <div class="container">
+      <div class="content">
+        <div class="row">
+         <div class="row col-md-6">
+            <div class="col-md-12">
+              <h5>Redes sociales</h5>
+              <ul class="links-vertical">
+                <li>
+                  <a href="#pablo">
+                    <i style="font-size: 15px;" class="fab fa-facebook"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#pablo">
+                    <i style="font-size: 15px;" class="fab fa-twitter"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#pablo">
+                    <i style="font-size: 15px;" class="fab fa-instagram"></i>
+                  </a>
+                </li>
+              </ul>
+              <h5>Acerca de Blog i-gamma</h5>
+              <ul class="links-vertical">
+                <li>
+                  
+                    <p class="px-1">Blog i-gamma es el medio de comunicación de avances cientificos de integralidad gamma, puedes conocer más dando clic en el siguiente enlace:</p> 
+                    <b><a href="">Integralidad Gamma</a></b>
+                 
+                </li>
+              
+              
+              </ul>
+            </div>
+            <div id="subscribe" class="col-md-12">
+              <h5>Suscribete a I-GAMMA</h5>
+              <p style="margin-bottom: 36px!important;">
+                ¡Únete a nuestra comunidad y recibe noticias en tu bandeja de entrada!
+              </p>
+              {!! Form::open(['route' => 'posts.store']) !!}
+                <div class="form-group bmd-form-group">
+                  {!! Form::email('email', null, ['class'=>'form-control', 'placeholder' => 'Correo electronico']) !!}
+                </div>
+                {!! Form::submit('Suscribete', ['class'=>'btn btn-primary btn-block']) !!}
+              {!! Form::close() !!}
+         
+                
+            </div>
+          </div>
+          <div id="contact" class="col-md-6">
+            <h5>Contactanos</h5>
+            <p>
+              Conoce más acerca de Integralidad GAMMA
+            </p>
+            {!! Form::open(['route' => 'posts.contactUs']) !!}
+              <div class="form-group bmd-form-group">
+                {!! Form::text('name', null, ['class'=>'form-control', 'placeholder' => 'Nombre completo']) !!}
+              </div>
+              <div class="form-group bmd-form-group">
+                {!! Form::email('email', null, ['class'=>'form-control', 'placeholder' => 'Correo electronico']) !!}
+              </div>
+              <div class="form-group bmd-form-group">
+                {!! Form::textarea('body', null, ['class'=>'form-control', 'placeholder' => 'Escribenos un mensaje']) !!}
+              </div>
+              {!! Form::submit('Enviar', ['class'=>'btn btn-primary btn-block']) !!}
+            {!! Form::close() !!}
+       
+              
+          </div>
+       
+          
+        </div>
+      </div>
+      <hr>
+      <ul class="social-buttons">
+        <li>
+          <a href="#pablo" class="btn btn-just-icon btn-link btn-twitter">
+            <i class="fa fa-twitter"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#pablo" class="btn btn-just-icon btn-link btn-facebook">
+            <i class="fa fa-facebook-square"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#pablo" class="btn btn-just-icon btn-link btn-dribbble">
+            <i class="fa fa-dribbble"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#pablo" class="btn btn-just-icon btn-link btn-google">
+            <i class="fa fa-google-plus"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#pablo" class="btn btn-just-icon btn-link btn-youtube">
+            <i class="fa fa-youtube-play"></i>
+          </a>
+        </li>
+      </ul>
+      <div class="copyright pull-center">
+        Copyright ©
+        <script>
+          document.write(new Date().getFullYear());
+        </script>2021 Blog i-gamma All Rights Reserved.
+      </div>
+    </div>
+  </footer>
 
+
+
+  @include('sweetalert::alert')
   <!--   Core JS Files   -->
   <script src="{{ asset('iGamma/js/core/jquery.min.js') }}" type="text/javascript"></script>
   <script src="{{ asset('iGamma/js/core/popper.min.js') }}" type="text/javascript"></script>
@@ -154,16 +306,23 @@
   <!--SwiperJS-->
   <script src="{{ asset('iGamma/js/swiper.min.js') }}" type="text/javascript"></script>
   <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
+  <script src="{{ asset('js/disabledButton.js') }}"></script>
   <!-- Initialize Swiper -->
   <script>
+    var slides;
+    if (screen.width > 968) {
+        slides = '3';
+    } else {
+        slides = '1';
+    }
     var swiper = new Swiper('.swiper-container', {
-     // autoplay: {
-       // delay: 3000,
-      // },
+     autoplay: {
+       delay: 3000,
+      },
       effect: 'coverflow',
       grabCursor: true,
       centeredSlides: true,
-      slidesPerView: '1',
+      slidesPerView: slides,
       coverflowEffect: {
         rotate: 50,
         stretch: 0,
@@ -171,11 +330,17 @@
         modifier: 1,
         slideShadows : false,
       },
-      pagination: {
-        el: '.swiper-pagination',
+   
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
       },
+      pagination: {
+        el: '.swiper-pagination'
+      },
+   
     });
-  </script>.
+  </script>
     @livewireScripts
 </body>
 

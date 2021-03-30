@@ -25,9 +25,9 @@ class Posts extends Component
         // if(Cache::has('posts')) {
         //     $posts = Cache::get('posts');
         // } else {
-            $posts = Post::where('status', 3)
+            $posts = Post::where('status', 4)
             ->where('title', 'LIKE', '%' . $this->search . '%')
-            ->latest('id')->paginate(4);
+            ->latest('publicationDate')->paginate(4);
         //     Cache::put('posts', $posts);
         // }
      

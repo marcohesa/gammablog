@@ -9,7 +9,7 @@ class NextPosts extends Component
 {
     public function render()
     {
-        $nextPosts = Post::where('status', 2)->latest('id')
+        $nextPosts = Post::where('status', 3)->latest('id')
         ->take(15)->get();
         return view('livewire.next-posts', compact('nextPosts'));
     }

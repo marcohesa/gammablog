@@ -33,9 +33,14 @@ class Posts extends Component
             $posts = Post::where('title', 'LIKE', '%' . $this->search . '%')
             ->where('status', 'LIKE', '%' . $this->status . '%')->latest('id')->paginate(15);
         } else {
-            $posts = Post::where('user_id',Auth::user()->id)
-            ->where('title', 'LIKE', '%' . $this->search . '%')
-            ->where('status', 'LIKE', '%' . $this->status . '%')->latest('id')->paginate(15);
+
+            // $posts =  Post::has('users')->get();
+
+           $posts =  Post::whereHas('users', function($q) {
+                $q->where('user_id', Auth::user()->id);
+                 // in this scope, `$q` refers to the MediaProfile object, not the User.
+            })->Where('posts.title', 'LIKE', '%' . $this->search . '%')->latest('id') ->where('status', 'LIKE', '%' . $this->status . '%')->paginate(15);
+           
         }
         
         return view('livewire.admin.posts', compact('posts'));

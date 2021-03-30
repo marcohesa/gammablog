@@ -21,12 +21,10 @@ class CreatePostsTable extends Migration
             $table->string('publicationDate')->nullable()->default(null);
 
             $table->longText('body');
-            $table->enum('status', [1,2,3])->default(1);
+            $table->enum('status', [1,2,3,4]);
 
-            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('category_id');
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });

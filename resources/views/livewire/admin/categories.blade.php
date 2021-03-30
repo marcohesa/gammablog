@@ -6,7 +6,7 @@
         
     </div>
     <div class="card-body">
-        <table class="table table-striped">
+        <table class="table table-striped text-nowrap">
             <thead>
                 <th>Nombre</th>
                 <th colspan="2"></th>

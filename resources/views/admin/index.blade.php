@@ -1,13 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Blog i-gamma')
+@section('title', 'Integralidad GAMMA')
 
 @section('content_header')
-    <h1>INTEGRALIDAD I-GAMMA</h1>
+    
 @stop
 
 @section('content')
-    <p></p>
+    <div class="d-flex justify-content-center align-items-center m-auto">
+        <h1 class="text-center"><span id="txtSaludo"></span> {{ Auth::user()->name }} <br> Bienvenido a Integralidad GAMMA</h1>
+    </div>
 @stop
 
 @section('css')
@@ -15,5 +17,32 @@
 @stop
 
 @section('js')
-    {{-- <script> console.log('Hi!'); </script> --}}
+    <script>
+        function mostrarSaludo(){
+ 
+            fecha = new Date(); 
+            hora = fecha.getHours();
+
+            if(hora >= 0 && hora < 12){
+            texto = "Buenos días";
+          
+            }
+
+            if(hora >= 12 && hora < 18){
+            texto = "Buenas tardes";
+          
+            }
+
+            if(hora >= 18 && hora < 24){
+            texto = "Buenas noches";
+          
+            }
+
+           
+
+            document.getElementById('txtSaludo').innerHTML = texto;
+
+        }
+        mostrarSaludo();
+    </script>
 @stop

@@ -30,7 +30,7 @@ class NotifyUsersAboutStatusPost
     public function handle(PostStatus $event)
     {   
 
-        if($event->post->status == 1) {
+        if($event->post->status == 2) {
 
             $users = User::whereHas('roles',function($query) {
                 $query->whereIn('role_id',[1,2]);
@@ -40,9 +40,9 @@ class NotifyUsersAboutStatusPost
 
         } else {
 
-            $user = User::where('id', $event->post->user_id)->first();
-
-            Notification::send($user, new PostNotification($event->post));
+            $users =  $event->post->users;
+            
+            Notification::send($users, new PostNotification($event->post));
         }
 
         

@@ -23,6 +23,8 @@ class ImageFactory extends Factory
     {
         return [
             'url' => 'post/'.$this->faker->image('public/post', 640, 480, null, false),
+            'urlII' => 'post/'.$this->faker->image('public/post', 640, 480, null, false),
+            'urlIII' => 'post/'.$this->faker->image('public/post', 640, 480, null, false),
             'img_description' => $this->faker->text(30),
         ];
     }

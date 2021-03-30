@@ -17,9 +17,10 @@
                             <label for="">Filtrar por estado</label>
                             <select wire:model='status' name="status" class="form-control">
                                 <option value="" selected>Todos</option>
-                                <option value="1">Nuevos</option>
-                                <option value="2">Aprobados</option>
-                                <option value="3">Publicados</option>
+                                <option value="1">Borrador</option>
+                                <option value="2">Revisión</option>
+                                <option value="3">Aprobados</option>
+                                <option value="4">Publicados</option>
                             </select>
                         </div>
                         <div class="col">
@@ -28,10 +29,10 @@
                         </div>
                     </div>
                     
-                    <table class="table table-striped">
+                    <table class="table table-striped text-nowrap">
                         <thead>
                             <th>Titulo</th>
-                            <th>Autor</th>
+                            <th>Autor(es)</th>
                             <th>Fecha de publicación</th>
                             <th colspan="4"></th>
                         </thead>
@@ -39,7 +40,11 @@
                             @foreach ($posts as $post)
                                 <tr>
                                     <td>{{ $post->title }}</td>
-                                    <td>{{ $post->user->name }}</td>
+                                    <td>
+                                       @foreach ($post->users as $author)
+                                          {{ mb_strtoupper($author->name) }} <br>
+                                       @endforeach
+                                    </td>
                                     <td>
                                         @if ($post->publicationDate)
                                             @php
@@ -52,22 +57,28 @@
                                     <td width="10px">
                                        
                                         @can('Ver publicaciones')
-                                            @if(Auth::user()->hasrole([1,2]))
-                                                <a class="btn btn-outline-dark @if($post->status == 3) disabled @endif" href="{{ route('admin.posts.show', $post) }}">
-                                                    @if ($post->status == 1)
-                                                        Aprobar
-                                                    @elseif($post->status == 2)
-                                                        Publicar
-                                                    @else
-                                                    <i style="color: green;" class="fas fa-check-circle"></i>
-                                                    @endif
-                                                </a>
-                                            @elseif(Auth::user()->hasrole([3]))
+                                            @if(Auth::user()->roles()->first()->id == 1 || Auth::user()->roles()->first()->id == 2)
                                                 @if ($post->status == 1)
-                                                    En revisión
-                                                @elseif($post->status == 2)
-                                                    Aprobado
+                                                    En borrador
                                                 @else
+                                                    <a class="btn btn-outline-dark @if($post->status == 4) disabled @endif" href="{{ route('admin.posts.show', $post) }}">
+                                                        @if ($post->status == 2)
+                                                            Aprobar
+                                                        @elseif($post->status == 3)
+                                                            Publicar
+                                                        @elseif($post->status == 4)
+                                                        <i style="color: green;" class="fas fa-check-circle"></i>
+                                                        @endif
+                                                    </a>
+                                                @endif
+                                            @elseif(Auth::user()->roles()->first()->id == 3)
+                                                @if ($post->status == 1)
+                                                <a class="btn btn-outline-dark" href="{{ route('admin.posts.show', $post) }}">Enviar a revisión</a>
+                                                @elseif($post->status == 2)
+                                                    En revisión
+                                                @elseif($post->status == 3)
+                                                    Aprobado
+                                                @elseif($post->status == 4)
                                                 <i style="color: green;" class="fas fa-check-circle"></i>
                                                 @endif
                                             @endif
@@ -76,7 +87,7 @@
                                     </td>
                                     <td width="10px">
                                         @can('Editar publicaciones')
-                                            @if (Auth::user()->hasrole([1,2]) || (Auth::user()->hasrole([3]) && $post->status == 1))
+                                            @if (Auth::user()->roles()->first()->id == 1 || (Auth::user()->roles()->first()->id == 3 && $post->status == 1))
                                                <a class="btn btn-outline-dark" href="{{ route('admin.posts.edit', $post) }}">Editar</a> 
                                             @endif
                                         @endcan

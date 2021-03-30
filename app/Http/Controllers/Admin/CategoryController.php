@@ -55,7 +55,7 @@ class CategoryController extends Controller
         $category->slug = Str::slug($request->name);
         $category->save();
 
-        return redirect()->route('admin.categories.index')->with('info', 'Categoria creada');
+        return redirect()->route('admin.categories.index')->with('success', 'Categoria creada');
     }
 
     /**
@@ -101,7 +101,7 @@ class CategoryController extends Controller
       
         $category->update();
 
-        return redirect()->route('admin.categories.index')->with('info', 'Categoria actualizada');
+        return redirect()->route('admin.categories.index')->with('success', 'Categoria actualizada');
     }
 
     /**
@@ -114,6 +114,6 @@ class CategoryController extends Controller
     {
         $category->delete();
 
-        return redirect()->route('admin.categories.index')->with('info', 'Categoria eliminada');
+        return redirect()->route('admin.categories.index')->with('success', 'Categoria eliminada');
     }
 }

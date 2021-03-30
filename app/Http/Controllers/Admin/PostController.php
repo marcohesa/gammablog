@@ -56,52 +56,107 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
+  
+
         $request->validate([
             'title' => 'required',
             'description' => 'required',
             'body' => 'required',
             'category_id' => 'required',
-            'file' => 'required|max:1024|mimes:jpeg,png,jpg|dimensions:max_width=800,max_height=600',
+            'file' => 'required|max:1024|mimes:jpeg,png,jpg|dimensions:max_width=800,max_height=600|dimensions:min_width=640,min_height=480',
+            'fileII' => 'max:1024|mimes:jpeg,png,jpg|dimensions:max_width=800,max_height=600|dimensions:min_width=640,min_height=480',
+            'fileIII' => 'max:1024|mimes:jpeg,png,jpg|dimensions:max_width=800,max_height=600|dimensions:min_width=640,min_height=480',
         ]);
-        if(Auth::user()->hasrole([1,2])) {
+        if(Auth::user()->roles()->first()->id == 1 || Auth::user()->roles()->first()->id == 2) {
             $request->validate([
-                'user_id' => 'required',
+                'users' => 'required',
                 'publicationDate' => 'required',
             ]);
         }
 
+     
 
+       
         $post =  new Post;
         $post->title = $request->title;
         $post->slug = Str::slug($request->title);
         $post->description = $request->description;
         $post->body = $request->body;
-     
-        $post->status = 1;
-        if(Auth::user()->hasrole([1,2])) {
-            $post->user_id = $request->user_id;
+        
+        
+        if(Auth::user()->roles()->first()->id == 1 || Auth::user()->roles()->first()->id == 2) {
             $post->publicationDate = $request->publicationDate;
-        } else {
-            $post->user_id = Auth::user()->id;
+         
+        } 
+        if(Auth::user()->hasrole([3])) {
             $post->publicationDate = null;
-        }
+          
+        } 
+
+        $post->status = $request->status;
+
+     
+      
+
         $post->category_id = $request->category_id;
 
         if($post->save()) {
+            if(Auth::user()->roles()->first()->id == 1 || Auth::user()->roles()->first()->id == 2) {
+                $post->users()->attach($request->users);
+            } else {
+                $post->users()->attach(Auth::user()->id);
+                $post->users()->attach($request->users);
+            }
+           
+            $fullUrl1 = NULL;
+            $fullUrl2 = NULL;
+            $fullUrl3 = NULL;
 
-            $archivo = $request->file('file');
-            $fileExtension = $archivo->getClientOriginalExtension();
-            $filename = date("Ymd-hisa.").$fileExtension;
-            $path = public_path('/post/');
-            $archivo->move($path,$filename);
+            //img principal
+            if($request->file) {
+                $archivo = $request->file('file');
+                $fileExtension = $archivo->getClientOriginalExtension();
+                $filename = date("Ymd-hisa.").$fileExtension;
+                $path = public_path('/post/');
+                $archivo->move($path,'1'.$filename);
 
+                $fullUrl1 = 'post/'.'1'.$filename;
+            }
+
+            //img dos
+            if($request->fileII) {
+                $archivoII = $request->file('fileII');
+                $fileExtensionII = $archivoII->getClientOriginalExtension();
+                $filenameII = date("Ymd-hisa.").$fileExtensionII;
+                $pathII = public_path('/post/');
+                $archivoII->move($pathII,'2'.$filenameII);
+
+                $fullUrl2 = 'post/'.'2'.$filenameII;
+            }
+      
+
+            //img tres
+            if($request->file('fileIII')) {
+            
+                $archivoIII = $request->file('fileIII');
+                $fileExtensionIII = $archivoIII->getClientOriginalExtension();
+                $filenameIII = date("Ymd-hisa.").$fileExtensionIII;
+                $pathIII = public_path('/post/');
+                $archivoIII->move($pathIII,'3'.$filenameIII);
+
+                $fullUrl3 = 'post/'.'3'.$filenameIII;
+            } 
+            //dd($fullUrl1,$fullUrl2,$fullUrl3);
             $post->image()->create([
-                'url' => 'post/'.$filename,
+                'url' => $fullUrl1,
+                'urlII' => $fullUrl2,
+                'urlIII' => $fullUrl3,
             ]);
 
-            event(new PostStatus($post)); 
+           
         }
-        return redirect()->route('admin.posts.index')->with('info', 'Publicación creada');
+        return redirect()->route('admin.posts.index')->with('success', 'Publicación creada');
     }
 
     /**
@@ -112,17 +167,31 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+     
+     
+
         if($post->status == 1) {
-            $post->status = 2;
-            $post->update();
-            event(new PostStatus($post));
-            return redirect()->back()->with('info', 'Publicación aprobada');
+
+            $post->update([
+                'status' => 2
+            ]);
+          
+            event(new PostStatus($post)); 
+            return redirect()->route('admin.posts.index')->with('success', 'Publicación enviada a revisión');
         }
         if($post->status == 2) {
-            $post->status = 3;
-            $post->update();
+            $post->update([
+                'status' => 3
+            ]);
             event(new PostStatus($post));
-            return redirect()->back()->with('info', 'Publicación publicada');
+            return redirect()->route('admin.posts.index')->with('success', 'Publicación aprobada');
+        }
+        if($post->status == 3) {
+            $post->update([
+                'status' => 4
+            ]);
+            event(new PostStatus($post));
+            return redirect()->route('admin.posts.index')->with('success', 'Publicación publicada');
         }
     }
 
@@ -153,11 +222,13 @@ class PostController extends Controller
             'description' => 'required',
             'body' => 'required',
             'category_id' => 'required',
-            'file' => 'max:1024|mimes:jpeg,png,jpg|dimensions:max_width=800,max_height=600',
+            'file' => 'max:1024|mimes:jpeg,png,jpg|dimensions:max_width=800,max_height=600|dimensions:min_width=640,min_height=480',
+            'fileII' => 'max:1024|mimes:jpeg,png,jpg|dimensions:max_width=800,max_height=600|dimensions:min_width=640,min_height=480',
+            'fileIII' => 'max:1024|mimes:jpeg,png,jpg|dimensions:max_width=800,max_height=600|dimensions:min_width=640,min_height=480',
         ]);
-        if(Auth::user()->hasrole([1,2])) {
+        if(Auth::user()->roles()->first()->id == 1 || Auth::user()->roles()->first()->id == 2) {
             $request->validate([
-                'user_id' => 'required',
+          
                 'publicationDate' => 'required',
             ]);
         }
@@ -167,19 +238,15 @@ class PostController extends Controller
         $post->description = $request->description;
         $post->body = $request->body;
         
-        $post->status = 1;
-        if(Auth::user()->hasrole([1,2])) {
-            $post->user_id = $request->user_id;
-            
-        } else {
-            $post->user_id = Auth::user()->id;
-        }
+
         $post->publicationDate = $request->publicationDate;
         $post->category_id = $request->category_id;
 
         if($post->update()) {
 
+            //img principal
             if($request->file('file')) {
+            
                 $archivo = $request->file('file');
                 $fileExtension = $archivo->getClientOriginalExtension();
                 $filename = date("Ymd-hisa.").$fileExtension;
@@ -190,9 +257,35 @@ class PostController extends Controller
                     'url' => 'post/'.$filename,
                 ]);
             }
+            //img dos
+            if($request->file('fileII')) {
+            
+                $archivoII = $request->file('fileII');
+                $fileExtensionII = $archivoII->getClientOriginalExtension();
+                $filenameII = date("Ymd-hisa.").$fileExtensionII;
+                $pathII = public_path('/post/');
+                $archivoII->move($pathII,$filenameII);
+
+                $post->image()->update([
+                    'urlII' => 'post/'.$filenameII,
+                ]);
+            }
+            //img tres
+            if($request->file('fileIII')) {
+            
+                $archivoIII = $request->file('fileIII');
+                $fileExtensionIII = $archivoIII->getClientOriginalExtension();
+                $filenameIII = date("Ymd-hisa.").$fileExtensionIII;
+                $pathIII = public_path('/post/');
+                $archivoIII->move($pathIII,$filenameIII);
+
+                $post->image()->update([
+                    'urlIII' => 'post/'.$filenameIII,
+                ]);
+            }
         }
 
-        return redirect()->route('admin.posts.index')->with('info', 'Publicación actualizada');
+        return redirect()->route('admin.posts.index')->with('success', 'Publicación actualizada');
     }
 
     /**
@@ -204,7 +297,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return redirect()->back()->with('info', 'Publicación eliminada');
+        return redirect()->back()->with('success', 'Publicación eliminada');
 
     }
 }

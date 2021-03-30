@@ -1,71 +1,212 @@
 @extends('welcome')
 
 @section('cover')
-    <h1 class="title">{{ $post->title }}</h1>
-    <h4>{{ $post->user->name }}</h4> 
-    @if ($post->user->profile_photo_url)
-        <a href="{{ route('users.show', $post->user->id) }}">
-            <img class="rounded-circle img img-raised" src="{{ $post->user->profile_photo_url }}" alt="{{ $post->user->name }}">
+    <h2 class="title">{{ $post->title }}</h2>
+  
+    {{-- @if ($post->user->profile_photo_url)
+        <a href="{{ route('users.show', $post->user->id) }}" style="text-decoration: none!important; color:white;">
+            <h4>{{ $post->user->name }}</h4> 
+            <img style="width: 100px!important;" class="rounded-circle img img-raised" src="{{ $post->user->profile_photo_url }}" alt="{{ $post->user->name }}">
         </a>
         
-    @endif
-    
+    @endif   --}}
 @endsection
 
 @section('content')
     <div class="main main-raised">
-        <div class="container">
-            <div class="p-4 d-flex justify-content-center col-md-12">
-                <img class="col-12 col-md-7" src="{{ asset($post->image->url )}}" alt="{{ $post->title }}">
+        <a id="back" class="elevation-2" href="{{ route('posts.index') }}" style="text-decoration:none;position:fixed;left:5%;top:70%;"><i style="font-size:50px;color:black;" class="fas fa-chevron-circle-left"></i></a>
+        <div class="container py-4">
+
+            <h6 class="text-center">Autor(es)</h6>
+
+            <div class="card card-raised card-carousel" style="box-shadow: none!important">
+                <div id="authors" class="carousel slide" data-ride="carousel" data-interval="3000">
+                <ol class="carousel-indicators">
+
+                    @foreach ($post->users as $count)
+                        @if ($loop->first)
+                            <li data-target="#authors" data-slide-to="{{ $loop->iteration }}" class="active"></li>
+                        @endif
+                        <li data-target="#authors" data-slide-to="{{ $loop->iteration }}" class=""></li>
+               
+                        
+                    @endforeach
+                    
+                
+                </ol>
+                <div class="carousel-inner">
+                    @foreach ($post->users as $author)
+                    @if ($loop->first)
+                    <div class="carousel-item active">
+                        <div class="card card-profile card-plain">
+                        <div class="card-avatar mt-4">
+                            <a href="{{ route('users.show', $author->id) }}">
+                            <img class="img" src="{{ $author->profile_photo_url }}">
+                            </a>
+                        </div>
+                        <div class="card-body mb-2">
+                            <h6 class="card-category text-gray">{{ $author->name }}</h6>
+                            <h6 class="card-title">{{ $author->institution->name }}</h6>
+                        
+                            
+                        </div>
+                        </div>
+                    </div>
+                    @endif
+                    
+                    <div class="carousel-item ">
+                        <div class="card card-profile card-plain">
+                        <div class="card-avatar mt-4">
+                            <a href="{{ route('users.show', $author->id) }}">
+                            <img class="img" src="{{ $author->profile_photo_url }}">
+                            </a>
+                        </div>
+                        <div class="card-body mb-2">
+                            <h6 class="card-category text-gray">{{ $author->name }}</h6>
+                            <h6 class="card-title">{{ $author->institution->name }}</h6>
+                        
+                            
+                        </div>
+                        </div>
+                    </div>
+                 
+                @endforeach
+                  
+                </div>
+                <a class="carousel-control-prev" href="#authors" role="button" data-slide="prev">
+                    <i class="material-icons">keyboard_arrow_left</i>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#authors" role="button" data-slide="next">
+                    <i class="material-icons">keyboard_arrow_right</i>
+                    <span class="sr-only">Next</span>
+                </a>
+                </div>
             </div>
+
+
+            <div class="card card-raised card-carousel col-12 col-md-10 col-lg-8 m-auto"  style="box-shadow: none!important">
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="3000">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                    @if ($post->image->urlII)
+                        <li data-target="#carouselExampleIndicators" data-slide-to="1" class=""></li>
+                    @endif
+                    @if ($post->image->urlIII)
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2" class=""></li>
+                    @endif
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                    <img class="d-block w-100" src="{{ asset($post->image->url )}}" alt="First slide">
+                    <div class="carousel-caption d-none d-md-block">
+                        {{-- <h4>
+                        <i class="material-icons">location_on</i> Yellowstone National Park, United States
+                        </h4> --}}
+                    </div>
+                    </div>
+                    @if ($post->image->urlII)
+                        <div class="carousel-item">
+                        <img class="d-block w-100" src="{{ asset($post->image->urlII )}}" alt="Second slide">
+                        <div class="carousel-caption d-none d-md-block">
+                            {{-- <h4>
+                            <i class="material-icons">location_on</i> Somewhere Beyond, United States
+                            </h4> --}}
+                        </div>
+                        </div>
+                    @endif
+                    @if ($post->image->urlIII)
+                        <div class="carousel-item">
+                        <img class="d-block w-100" src="{{ asset($post->image->urlIII )}}" alt="Third slide">
+                        <div class="carousel-caption d-none d-md-block">
+                            {{-- <h4>
+                            <i class="material-icons">location_on</i> Yellowstone National Park, United States
+                            </h4> --}}
+                        </div>
+                        </div>
+                    @endif
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <i class="material-icons">keyboard_arrow_left</i>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <i class="material-icons">keyboard_arrow_right</i>
+                    <span class="sr-only">Next</span>
+                </a>
+                </div>
+            </div>
+           
             <div class="p-4" >
                
                 <p class="text-justify">{!! $post->body !!}</p>
+
             </div>
-        </div>
+          
+            <hr>
 
-    </div>
-
-
-    <div class="section">
-        <div class="container">
-         
             <div class="ml-auto mr-auto row d-flex justify-content-center">
-                @if($posts)
-                    <h1 class="m-4 text-center col-md-12">Te puede interesar</h1>
-                @else
-                
+                @if($posts->count() != 0 )
+                    <h2 class="m-4 text-center col-md-12 title">Te puede interesar</h1>
                 @endif
-                <div class="swiper-container">
-                    <div class="swiper-wrapper">
-                        @forelse ($posts as $item)
-                            <div class="card card-blog col-md-4 swiper-slide">
-                                <div class="card-header card-header-image">
-                                
-                                    <img class="img img-raised" src="{{ asset($item->image->url )}}" alt="{{ $item->title }}">
-                                
+
+                @if($posts->count() >= 3 )
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            @forelse ($posts as $item)
+                                <div class="col-12 col-md-4 swiper-slide">
+                                    <div class="card card-blog ">
+                                    <div class="card-header card-header-image">
+                                        <a href="#pablo">
+                                        <img src="{{ asset($item->image->url) }}" alt="{{ $item->title }}">
+                                        </a>
+                                    </div>
+                                    <div class="card-body ">
+                                        <h6 class="card-category text-info " >{{ $item->category->name }}</h6>
+                                        <h6 class="card-title ">
+                                            {{ $item->title }}
+                                        </h6>
+                                    </div>
+                                    </div>
                                 </div>
-                                <div class="card-body">
-                                    <h6 class="category text-info"></h6>
-                                    <h4 class="card-title">
-                                        {{ $item->title }}
-                                    </h4>
-                                    <p class="card-description">
-                                        {!! $item->description !!}
-                                        <br>
-                                        <a href="{{ route('posts.show', $item ) }}">Leer más</a>
-                                    </p>
-                                </div>
-                            </div>
-                        @empty
+                            @empty
+                            
+                            @endforelse
+                        </div>
+                        <!-- Add Arrows -->
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <!-- Add Pagination -->
+                        <div class="swiper-pagination"></div>
                         
-                        @endforelse
                     </div>
-                </div>
+                @else
+                    @forelse ($posts as $item)
+                        <div class="col-12 col-md-4 ">
+                            <div class="card card-blog ">
+                            <div class="card-header card-header-image">
+                                <a href="#pablo">
+                                <img src="{{ asset($item->image->url) }}" alt="{{ $item->title }}">
+                                </a>
+                            </div>
+                            <div class="card-body ">
+                                <h6 class="card-category text-info " >{{ $item->category->name }}</h6>
+                                <h6 class="card-title ">
+                                    {{ $item->title }}
+                                </h6>
+                            </div>
+                            </div>
+                        </div>
+                    @empty
+                    
+                    @endforelse
+                @endif
             </div>
-            
-           
+            <br>
+
+
         </div>
+
     </div>
 
-@endsection
+@stop

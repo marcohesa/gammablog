@@ -1,32 +1,35 @@
 <div class="ml-auto mr-auto row d-flex justify-content-center">
     @if($nextPosts->count() != 0 )
         <h2 class="m-4 text-center col-md-12 title">Próximas publicaciones</h1>
-    @else
-    
     @endif
     <div class="swiper-container">
         <div class="swiper-wrapper">
             @forelse ($nextPosts as $nextPost)
-                <div class="card card-blog col-md-4 swiper-slide">
-                    <div class="card-header card-header-image">
-                    
-                        <img class="img img-raised" src="{{ asset($nextPost->image->url) }}" alt="{{ $nextPost->title }}">
-                    
-                    </div>
-                    <div class="card-body">
-                        <h6 class="category text-info"></h6>
-                        <h4 class="card-title">
+                <div class="col-12 col-md-4 swiper-slide">
+                    <div class="card card-blog ">
+                      <div class="card-header card-header-image">
+                        <a href="#pablo">
+                          <img src="{{ asset($nextPost->image->url) }}" alt="{{ $nextPost->title }}">
+                        </a>
+                     </div>
+                      <div class="card-body ">
+                        <h6 class="card-category text-info">{{ $nextPost->category->name }}</h6>
+                        <h6 class="card-title">
                             {{ $nextPost->title }}
-                        </h4>
-                        <p class="card-description">
-                            {{ $nextPost->description }}
-                        </p>
+                        </h6>
+                      </div>
                     </div>
                 </div>
             @empty
             
             @endforelse
         </div>
+          <!-- Add Arrows -->
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+          <!-- Add Pagination -->
+          <div class="swiper-pagination"></div>
+        
     </div>
 </div>
 

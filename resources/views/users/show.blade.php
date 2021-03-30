@@ -1,11 +1,11 @@
 @extends('welcome')
 
 @section('cover')
-    <h1 class="title">{{ $user->name }}</h1>
-    <h4>{{ $user->institution }}</h4> 
+    <h2 class="title">{{ $user->name }}</h2>
+    <h4>{{ $user->institution->name }}</h4> 
     @if ($user->profile_photo_url)
     
-        <img style="width:200px!important;" class="rounded-circle img img-raised" src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}">
+        <img style="width: 100px!important;" class="rounded-circle img img-raised" src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}">
       
         
     @endif
@@ -18,15 +18,14 @@
         <a id="back" class="elevation-2" href="{{ route('posts.index') }}" style="text-decoration:none;position:fixed;left:5%;top:70%;"><i style="font-size:50px;color:black;" class="fas fa-chevron-circle-left"></i></a>
         <div class="container">
             <div class="pt-5 m-auto row col-md-12">
-                <div class="name col-md-12">
-                  
+                <div class="d-flex justify-content-center align-content-center name col-md-12">
                     @if ($user->facebook)
-                        <a href="{{ detalle_autor.facebook }}" class="m-auto btn btn-just-icon btn-link btn-facebook d-flex"><i class="fa fa-facebook"></i></a>
+                        <a href="{{ $user->facebook }}" class=" btn btn-just-icon btn-link btn-facebook d-flex"><i class="fab fa-facebook"></i></a>
                     @endif
                     @if ($user->twitter)
-                        <a href="{{ detalle_autor.twitter }}" class="m-auto btn btn-just-icon btn-link btn-twitter d-flex"><i class="fa fa-twitter"></i></a>
+                        <a href="{{ $user->twitter }}" class=" btn btn-just-icon btn-link btn-twitter d-flex"><i class="fab fa-twitter"></i></a>
                     @endif
-                    <a href="mailto:{{ $user->email }}" class="m-auto btn btn-just-icon btn-link btn-google d-flex"><i class="fa fa-envelope"></i></a>
+                    <a href="mailto:{{ $user->email }}" class=" btn btn-just-icon btn-link btn-google d-flex"><i class="fa fa-envelope"></i></a>
                 </div>
             </div>
          

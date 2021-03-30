@@ -1,21 +1,12 @@
 @extends('adminlte::page')
 
-@section('title', 'Learn Online')
+@section('title', 'Integralidad GAMMA')
 
 @section('content_header')
     <h1>Roles</h1>
 @stop
 
 @section('content')
-
-    @if (session('info'))
-    <div class="alert alert-ligh alert-dismissible fade show" role="alert">
-        {{ session('info') }}.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    @endif
     <div class="card">
         <div class="card-header">
             @can('Crear roles')
@@ -66,10 +57,7 @@
    
 @stop
 
-@section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
-@stop
-
 @section('js')
-    <script> console.log('Hi!'); </script>
+    @include('sweetalert::alert')
+    <script src="{{ asset('js/disabledButton.js') }}"></script>
 @stop

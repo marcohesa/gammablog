@@ -22,6 +22,6 @@ class UserSeeder extends Seeder
             'estudies' => 'Ing. en sistemas comnputacionales, especializado en ing. de software y desarrollador fullstack.',
             'password' => bcrypt('12345678'),
         ]);
-        User::factory(99)->create();
+        User::factory(19)->create();
     }
 }

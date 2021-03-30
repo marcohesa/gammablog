@@ -17,6 +17,8 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('facebook')->nullable()->default(null);
+            $table->string('twitter')->nullable()->default(null);
             $table->unsignedBigInteger('institution_id')->nullable()->default(null);
             $table->text('description')->nullable();
             $table->text('estudies')->nullable();
@@ -25,7 +27,6 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->text('profile_photo_path')->nullable();
-
             $table->foreign('institution_id')->references('id')->on('institutions')->onDelete('cascade');
             $table->timestamps();
         });
