@@ -15,8 +15,8 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => 'Marco Antonio Hernandez Salas',
-            'email' => 'marc0.4ntonio.1996@gmail.com',
+            'name' => 'Ronaldo rodriguez',
+            'email' => 'ranaldo@gmail.com',
             'institution_id' => 2,
             'description' => 'Ing. en sistemas comnputacionales, especializado en ing. de software y desarrollador fullstack.',
             'estudies' => 'Ing. en sistemas comnputacionales, especializado en ing. de software y desarrollador fullstack.',
