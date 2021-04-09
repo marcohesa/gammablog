@@ -2,7 +2,10 @@
 
 @section('cover')
     <h2 class="title">{{ $user->name }}</h2>
-    <h4>{{ $user->institution->name }}</h4> 
+    @if ($user->institution_id)
+         <h4>{{ $user->institution->name }}</h4> 
+    @endif
+   
     @if ($user->profile_photo_url)
     
         <img style="width: 100px!important;" class="rounded-circle img img-raised" src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}">

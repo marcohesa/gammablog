@@ -32,5 +32,8 @@ class InstitutionSeeder extends Seeder
         Institution::create([
             'name' => 'UPIITA - IPN',
         ]);
+        Institution::create([
+            'name' => 'CONSULTOR(A) INDEPENDIENTE',
+        ]);
     }
 }

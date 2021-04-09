@@ -24,37 +24,21 @@
                 <ol class="carousel-indicators">
 
                     @foreach ($post->users as $count)
-                        @if ($loop->first)
-                            <li data-target="#authors" data-slide-to="{{ $loop->iteration }}" class="active"></li>
-                        @endif
-                        <li data-target="#authors" data-slide-to="{{ $loop->iteration }}" class=""></li>
-               
+                      
+                         
+                        <li data-target="#authors" data-slide-to="{{ $loop->iteration }}" class="@if($loop->first) active @endif"></li>
                         
+                 
+                   
                     @endforeach
                     
                 
                 </ol>
                 <div class="carousel-inner">
                     @foreach ($post->users as $author)
-                    @if ($loop->first)
-                    <div class="carousel-item active">
-                        <div class="card card-profile card-plain">
-                        <div class="card-avatar mt-4">
-                            <a href="{{ route('users.show', $author->id) }}">
-                            <img class="img" src="{{ $author->profile_photo_url }}">
-                            </a>
-                        </div>
-                        <div class="card-body mb-2">
-                            <h6 class="card-category text-gray">{{ $author->name }}</h6>
-                            <h6 class="card-title">{{ $author->institution->name }}</h6>
-                        
-                            
-                        </div>
-                        </div>
-                    </div>
-                    @endif
+                   
                     
-                    <div class="carousel-item ">
+                    <div class="carousel-item @if($loop->first) active @endif">
                         <div class="card card-profile card-plain">
                         <div class="card-avatar mt-4">
                             <a href="{{ route('users.show', $author->id) }}">
@@ -190,10 +174,12 @@
                                 </a>
                             </div>
                             <div class="card-body ">
-                                <h6 class="card-category text-info " >{{ $item->category->name }}</h6>
-                                <h6 class="card-title ">
-                                    {{ $item->title }}
-                                </h6>
+                                <a href="{{ route('posts.show', $item) }}">
+                                    <h6 class="card-category text-info " >{{ $item->category->name }}</h6>
+                                    <h6 class="card-title ">
+                                        {{ $item->title }}
+                                    </h6>
+                                </a>
                             </div>
                             </div>
                         </div>
