@@ -20,7 +20,7 @@
     @endif
     <div class="card">
         <div class="card-body">
-            <h1 class="h5">Nombre: {{ $user->name }}</h1> <br><br>
+            <h1 class="h5 font-weight-bold">Nombre: {{ $user->name }}</h1> <br><br>
             <h1 class="h5">Lista de roles</h1>
             @error('roles')
                 <br>
@@ -35,7 +35,68 @@
                         </label>
                 </div>
                 @endforeach
-                {!! Form::submit('Asignar Rol', ['class'=> 'btn btn-outline-primary mt-2']) !!}
+                <hr>
+                <h1 class="h5 my-5 font-weight-bold">Más información</h1> 
+                <div class="row">
+                    {{-- <div class="col">
+                        {!! Form::label('name', 'Nombre completo') !!}
+                        {!! Form::text('name', null, ['class' => 'form-control', 'required']) !!}
+
+                        @error('name')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="col">
+                        {!! Form::label('name', 'Correo electrónico') !!}
+                        {!! Form::email('email', null, ['class' => 'form-control', 'required']) !!}
+
+                        @error('email')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div> --}}
+                    <div class="col-12 col-md-4">
+                        {!! Form::label('facebook', 'Facebook') !!}
+                        {!! Form::text('facebook', null, ['class' => 'form-control']) !!}
+
+                        @error('facebook')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="col-12 col-md-4">
+                        {!! Form::label('twitter', 'Twiter') !!}
+                        {!! Form::text('twitter', null, ['class' => 'form-control']) !!}
+
+                        @error('twitter')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="col-12 col-md-4">
+                        {!! Form::label('name', 'Institución') !!}
+                        {!! Form::select('institution_id', $institutions, null, ['class' => 'form-control', 'required', 'placeholder' => 'Selecciona una opción', 'required']) !!}
+
+                        @error('institution_id')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="col-12 col-md-6">
+                        {!! Form::label('name', 'Descripción') !!}
+                        {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
+
+                        @error('description')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="col-12 col-md-6">
+                        {!! Form::label('name', 'Formación') !!}
+                        {!! Form::textarea('estudies', null, ['class' => 'form-control']) !!}
+
+                        @error('estudies')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                
+                </div>
+                {!! Form::submit('Actualizar', ['class'=> 'btn btn-outline-primary mt-2']) !!}
                 <button type="button" class="btn btn-outline-danger mt-2" onclick="confirmation()">Cancelar</button>
             {!! Form::close() !!}
         </div>

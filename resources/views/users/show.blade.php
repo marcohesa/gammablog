@@ -28,7 +28,7 @@
                     @if ($user->twitter)
                         <a href="{{ $user->twitter }}" class=" btn btn-just-icon btn-link btn-twitter d-flex"><i class="fab fa-twitter"></i></a>
                     @endif
-                    <a href="mailto:{{ $user->email }}" class=" btn btn-just-icon btn-link btn-google d-flex"><i class="fa fa-envelope"></i></a>
+                    <a href="mailto:{{ $user->email }}" class=" btn btn-just-icon btn-link btn-google d-flex"><i style="margin-top: -9px!important;" class="fa fa-envelope"></i></a>
                 </div>
             </div>
          

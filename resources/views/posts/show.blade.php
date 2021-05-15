@@ -1,7 +1,7 @@
 @extends('welcome')
 
 @section('cover')
-    <h2 class="title">{{ $post->title }}</h2>
+    
   
     {{-- @if ($post->user->profile_photo_url)
         <a href="{{ route('users.show', $post->user->id) }}" style="text-decoration: none!important; color:white;">
@@ -10,18 +10,11 @@
         </a>
         
     @endif   --}}
-@endsection
+    <h6 class="text-center">Autor(es)</h6>
 
-@section('content')
-    <div class="main main-raised">
-        <a id="back" class="elevation-2" href="{{ route('posts.index') }}" style="text-decoration:none;position:fixed;left:5%;top:70%;"><i style="font-size:50px;color:black;" class="fas fa-chevron-circle-left"></i></a>
-        <div class="container py-4">
-
-            <h6 class="text-center">Autor(es)</h6>
-
-            <div class="card card-raised card-carousel" style="box-shadow: none!important">
+            <div class="card card-raised card-carousel" style="box-shadow: none!important; background: transparent!important;">
                 <div id="authors" class="carousel slide" data-ride="carousel" data-interval="3000">
-                <ol class="carousel-indicators">
+                {{-- <ol class="carousel-indicators">
 
                     @foreach ($post->users as $count)
                       
@@ -34,20 +27,21 @@
                     
                 
                 </ol>
-                <div class="carousel-inner">
+                 --}}
+                <div class="carousel-inner ">
                     @foreach ($post->users as $author)
                    
                     
                     <div class="carousel-item @if($loop->first) active @endif">
-                        <div class="card card-profile card-plain">
+                        <div class="card card-profile card-plain ">
                         <div class="card-avatar mt-4">
                             <a href="{{ route('users.show', $author->id) }}">
-                            <img class="img" src="{{ $author->profile_photo_url }}">
+                            <img class="img " src="{{ $author->profile_photo_url }}">
                             </a>
                         </div>
-                        <div class="card-body mb-2">
-                            <h6 class="card-category text-gray">{{ $author->name }}</h6>
-                            <h6 class="card-title">{{ $author->institution->name }}</h6>
+                        <div class="card-body">
+                            <h6 class="card-category text-white" >{{ $author->name }}</h6>
+                            {{-- <h6 class="card-title">{{ $author->institution->name }}</h6>  --}}
                         
                             
                         </div>
@@ -68,10 +62,20 @@
                 </div>
             </div>
 
+@endsection
 
-            <div class="card card-raised card-carousel col-12 col-md-10 col-lg-8 m-auto"  style="box-shadow: none!important">
+@section('content')
+    <div class="main main-raised">
+        <a id="back" class="elevation-2" href="{{ route('posts.index') }}" style="text-decoration:none;position:fixed;left:5%;top:70%;"><i style="font-size:50px;color:black;" class="fas fa-chevron-circle-left"></i></a>
+        <div class="container py-4">
+
+            
+
+            <h3 class="title text-center mb-4">{{ $post->title }}</h3>
+
+            <div class="card card-raised card-carousel col-12 col-md-10 col-lg-8 mx-auto py-4"  style="box-shadow: none!important">
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="3000">
-                <ol class="carousel-indicators">
+                {{-- <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                     @if ($post->image->urlII)
                         <li data-target="#carouselExampleIndicators" data-slide-to="1" class=""></li>
@@ -79,7 +83,7 @@
                     @if ($post->image->urlIII)
                     <li data-target="#carouselExampleIndicators" data-slide-to="2" class=""></li>
                     @endif
-                </ol>
+                </ol> --}}
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                     <img class="d-block w-100" src="{{ asset($post->image->url )}}" alt="First slide">

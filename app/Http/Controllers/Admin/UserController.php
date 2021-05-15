@@ -85,7 +85,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         $institutions = Institution::latest('id')->pluck('name', 'id');
-        return view('admin.users.show', compact('user'));
+        return view('admin.users.show', compact('user', 'institutions'));
     }
 
     /**
@@ -97,7 +97,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::all();
-        return view('admin.users.edit', compact('user', 'roles'));
+        $institutions = Institution::latest('id')->pluck('name', 'id');
+        return view('admin.users.edit', compact('user', 'roles', 'institutions'));
     }
 
     /**
@@ -111,9 +112,21 @@ class UserController extends Controller
     {
         $request->validate([
             'roles' => 'required',
+            // 'name' => 'required',
+            // 'email' => 'required|email|unique:users',
         ]);
         $user->roles()->sync($request->roles);
         event(new UserStatus($user)); 
+
+        // $user->name = $request->name;
+        // $user->email = $request->email;
+        $user->facebook = $request->facebook;
+        $user->twitter = $request->twitter;
+        $user->institution_id = $request->institution_id;
+        $user->description = $request->description;
+        $user->estudies = $request->estudies;
+
+        $user->update();
 
         $suscribers = Subscriber::where('email', $user->email)->first();
     
@@ -139,4 +152,5 @@ class UserController extends Controller
 
         return redirect()->route('admin.users.index')->with('success', 'Usuario eliminado');
     }
+
 }

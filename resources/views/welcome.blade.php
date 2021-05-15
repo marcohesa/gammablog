@@ -267,7 +267,7 @@
         Copyright ©
         <script>
           document.write(new Date().getFullYear());
-        </script>2021 Blog i-gamma All Rights Reserved.
+        </script> Blog i-gamma All Rights Reserved.
       </div>
     </div>
   </footer>

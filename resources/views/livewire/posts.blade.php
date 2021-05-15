@@ -24,21 +24,21 @@
             </div>
             <div class="col-md-8">
                 <h6 class="card-category text-info">{{ $post->category->name }}</h6>
-                <h3 class="card-title">
-                    <a href="{{ route('posts.show', $post) }}">{{ $post->title }}</a>
-                </h3>
-                <p class="card-description">
-                    {{ $post->description }}
+                <h4 class="card-title text-justify">
+                    <a href="{{ route('posts.show', $post) }}">  {{ Str::limit($post->title, 250) }}</a>
+                </h4>
+                <p class="card-description text-justify">
+                    {{ Str::limit($post->description, 270) }}
                     <br>
-                    <div class="d-flex">
+                    <div class="d-flex justify-content-between">
                         <a class="mr-4" href="{{ route('posts.show', $post) }}" style="color:black!important;"> <b>Leer más</b> </a>
-                        <div class="social-buttons ml-4">
+                        <div class="social-buttons float-right">
                             <b>Compartir:</b>
-                            <a href="https://www.facebook.com/sharer/sharer.php?u=https://amaliath3code.com/big/posts/{{ $post->slug }}"
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:8000/posts/{{ $post->slug }}"
                             target="_blank">
                             <i class="fab fa-facebook" style="color: rgb(16, 94, 219); font-size:20px!important;"></i>
                             </a>
-                            <a href="https://twitter.com/intent/tweet?url=https://amaliath3code.com/big/posts/{{ $post->slug }}"
+                            <a href="https://twitter.com/intent/tweet?url=http://localhost:8000/posts/{{ $post->slug }}"
                                 target="_blank">
                                 <i class="fab fa-twitter-square" style="color: rgb(1, 183, 255); font-size:20px!important;"></i>
                             </a>

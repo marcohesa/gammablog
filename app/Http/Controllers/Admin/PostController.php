@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Events\PostStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 
@@ -167,32 +165,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-     
-     
-
-        if($post->status == 1) {
-
-            $post->update([
-                'status' => 2
-            ]);
-          
-            event(new PostStatus($post)); 
-            return redirect()->route('admin.posts.index')->with('success', 'Publicación enviada a revisión');
-        }
-        if($post->status == 2) {
-            $post->update([
-                'status' => 3
-            ]);
-            event(new PostStatus($post));
-            return redirect()->route('admin.posts.index')->with('success', 'Publicación aprobada');
-        }
-        if($post->status == 3) {
-            $post->update([
-                'status' => 4
-            ]);
-            event(new PostStatus($post));
-            return redirect()->route('admin.posts.index')->with('success', 'Publicación publicada');
-        }
+        
     }
 
     /**

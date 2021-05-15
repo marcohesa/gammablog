@@ -12,8 +12,5 @@
     @livewireScripts
 @stop
 
-@section('js')
-    @include('sweetalert::alert')
-    <script src="{{ asset('js/disabledButton.js') }}"></script>
-@stop
+
 

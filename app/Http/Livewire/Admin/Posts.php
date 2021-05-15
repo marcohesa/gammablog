@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Events\PostStatus;
 use App\Models\Post;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -44,5 +45,39 @@ class Posts extends Component
         }
         
         return view('livewire.admin.posts', compact('posts'));
+    }
+
+    public function state($id) {
+
+        $post = Post::find($id);
+       
+
+        switch ($post->status) {
+            case 1:
+                $post->update([
+                    'status' => 2
+                ]);
+                toast('Publicación enviada a revisión','success');
+                event(new PostStatus($post)); 
+                break;
+            case 2:
+    
+                $post->update([
+                    'status' => 3
+                ]);
+                toast('Publicación aprobada','success');
+                event(new PostStatus($post));
+                break;
+            case 3:
+
+                $post->update([
+                    'status' => 4
+                ]);
+                toast('Publicación publicada','success');
+                event(new PostStatus($post));
+            default:
+                toast('Error vuelva a Intentarlo','error');
+       
+        }
     }
 }

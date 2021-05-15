@@ -24,14 +24,15 @@
                             </select>
                         </div>
                         <div class="col">
-                            <label for="">Buscar por titulo</label>
-                            <input wire:model='search' type="text" placeholder="Buscar por nombre" class="form-control">
+                            <label for="">Buscar por título</label>
+                            <input wire:model='search' type="text" placeholder="Buscar por titulo" class="form-control">
                         </div>
                     </div>
                     
                     <table class="table table-striped text-nowrap">
                         <thead>
                             <th>Titulo</th>
+                            <th>Categoría</th>
                             <th>Autor(es)</th>
                             <th>Fecha de publicación</th>
                             <th colspan="4"></th>
@@ -39,7 +40,8 @@
                         <tbody>
                             @foreach ($posts as $post)
                                 <tr>
-                                    <td>{{ $post->title }}</td>
+                                    <td> {{ Str::limit($post->title, 90) }}</td>
+                                    <td> {{ $post->category->name }}</td>
                                     <td>
                                        @foreach ($post->users as $author)
                                           {{ mb_strtoupper($author->name) }} <br>
@@ -61,19 +63,30 @@
                                                 @if ($post->status == 1)
                                                     En borrador
                                                 @else
-                                                    <a class="btn btn-outline-dark @if($post->status == 4) disabled @endif" href="{{ route('admin.posts.show', $post) }}">
+                                                    <button wire:click="state({{ $post->id }})" wire:loading.attr="disabled" class="btn btn-outline-dark @if($post->status == 4) disabled @endif" >
                                                         @if ($post->status == 2)
                                                             Aprobar
+                                                            <div wire:loading class="spinner-border spinner-border-sm" role="status">
+                                                                <span class="sr-only">Loading...</span>
+                                                            </div>
                                                         @elseif($post->status == 3)
                                                             Publicar
+                                                            <div wire:loading class="spinner-border spinner-border-sm" role="status">
+                                                                <span class="sr-only">Loading...</span>
+                                                            </div>
                                                         @elseif($post->status == 4)
                                                         <i style="color: green;" class="fas fa-check-circle"></i>
                                                         @endif
-                                                    </a>
+                                                    </button>
                                                 @endif
                                             @elseif(Auth::user()->roles()->first()->id == 3)
                                                 @if ($post->status == 1)
-                                                <a class="btn btn-outline-dark" href="{{ route('admin.posts.show', $post) }}">Enviar a revisión</a>
+                                                <button wire:click="state({{ $post->id }})" wire:loading.attr="disabled"  class="btn btn-outline-dark" >
+                                                    Enviar a revisión
+                                                    <div wire:loading class="spinner-border spinner-border-sm" role="status">
+                                                        <span class="sr-only">Loading...</span>
+                                                    </div>
+                                                </button>
                                                 @elseif($post->status == 2)
                                                     En revisión
                                                 @elseif($post->status == 3)
@@ -87,7 +100,7 @@
                                     </td>
                                     <td width="10px">
                                         @can('Editar publicaciones')
-                                            @if (Auth::user()->roles()->first()->id == 1 || (Auth::user()->roles()->first()->id == 3 && $post->status == 1))
+                                            @if (Auth::user()->roles()->first()->id == 1 || Auth::user()->roles()->first()->id == 2 || (Auth::user()->roles()->first()->id == 3 && $post->status == 1))
                                                <a class="btn btn-outline-dark" href="{{ route('admin.posts.edit', $post) }}">Editar</a> 
                                             @endif
                                         @endcan

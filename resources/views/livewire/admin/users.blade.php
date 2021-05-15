@@ -18,7 +18,7 @@
                     <th>Nombre completo</th>
                     <th>Correo electrónico</th>
                     <th>Roles</th>
-                    <th colspan="3"></th>
+                    <th colspan="2"></th>
                 </thead>
                 <tbody>
                     @foreach ($users as $user)
@@ -32,11 +32,11 @@
                                     Sin rol
                                 @endforelse  
                             </td>
-                            <td width="10px">
-                                @can('Ver usuario')
-                                    <a class="btn btn-outline-dark" href="{{ route('admin.users.show', $user) }}">Ver</a>
+                            {{-- <td width="10px">
+                                @can('Ver usuarios')
+                                    <a class="btn btn-outline-dark" href="{{ route('admin.users.show', $user) }}">Ver/Editar</a>
                                 @endcan
-                            </td>
+                            </td> --}}
                             <td width="10px">
                                 @can('Editar usuarios')
                                     <a class="btn btn-outline-dark text-nowrap" href="{{ route('admin.users.edit', $user) }}">Asignar rol</a>

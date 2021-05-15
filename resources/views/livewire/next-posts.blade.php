@@ -15,7 +15,7 @@
                       <div class="card-body ">
                         <h6 class="card-category text-info">{{ $nextPost->category->name }}</h6>
                         <h6 class="card-title">
-                            {{ $nextPost->title }}
+                            {{ Str::limit($nextPost->title, 250) }}
                         </h6>
                       </div>
                     </div>
